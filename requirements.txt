@@ -1,6 +1,2 @@
-hfc-fabric-sdk-py
-shap
-lime
-numpy
-scikit-learn
-concurrent-log-handler
+# Main dependencies for the framework (add as needed)
+pyyaml
