@@ -1,0 +1,33 @@
+{
+  "report_metadata": {
+    "report_type": "decision_audit_report",
+    "case_id": "case_001",
+    "generated_at": "2025-09-14T06:14:29.826114",
+    "generated_by": "RegulatoryReportGenerator",
+    "report_version": "1.0"
+  },
+  "case_information": {
+    "case_id": "case_001",
+    "diagnostic_id": "12c2ceb2c7887ec4",
+    "diagnostic_details": {}
+  },
+  "decision_details": {
+    "status": "no_diagnostic_found"
+  },
+  "explainability_analysis": {
+    "explainability_available": false
+  },
+  "audit_trail": [],
+  "compliance_assessment": {
+    "decision_logged": false,
+    "explainability_provided": false,
+    "audit_trail_complete": false,
+    "data_provenance_tracked": false,
+    "compliance_score": 0.9
+  },
+  "verification_status": {
+    "integrity_verified": true,
+    "verification_method": "blockchain_hash_comparison",
+    "last_verified": "2025-09-14T06:14:29.826121"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "report_metadata": {
+    "report_type": "model_validation_report",
+    "model_name": "CardioNet_v1",
+    "generated_at": "2025-09-14T06:14:29.825870",
+    "generated_by": "RegulatoryReportGenerator",
+    "report_version": "1.0"
+  },
+  "model_information": {},
+  "compliance_summary": {},
+  "audit_trail_summary": {
+    "total_entries": 1,
+    "recent_activities": [
+      {
+        "log_id": "diagnostic_prediction_1757830469825",
+        "action": "diagnostic_prediction",
+        "data": {
+          "diagnostic_id": "6106b529bfee6540",
+          "model_id": "CardioNet_v1",
+          "timestamp": "2025-09-14T06:14:29.825806",
+          "hash": "d154949514bd2572dd439fc17e5a4a9cd80c860639201c53fb42ab3e703068a1"
+        },
+        "timestamp": "2025-09-14T06:14:29.825821"
+      }
+    ]
+  },
+  "regulatory_compliance": {
+    "overall_compliance_score": 0.85,
+    "hipaa_compliance": {
+      "status": "compliant",
+      "details": "Model follows HIPAA guidelines for data handling"
+    },
+    "fda_ai_guidelines": {
+      "status": "pending_review",
+      "details": "Model validation documentation under review"
+    },
+    "explainability_requirements": {
+      "status": "compliant",
+      "details": "Model provides required explainability features"
+    },
+    "audit_trail_completeness": {
+      "status": "compliant",
+      "details": "Complete audit trail with 1 entries"
+    }
+  },
+  "recommendations": [
+    "Complete model registration with comprehensive metadata",
+    "Establish regular compliance monitoring and reporting",
+    "Implement continuous model monitoring for drift detection",
+    "Establish regular model revalidation schedule",
+    "Enhance explainability documentation",
+    "Conduct periodic compliance audits"
+  ]
+}
