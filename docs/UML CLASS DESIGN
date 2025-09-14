@@ -1,0 +1,47 @@
++---------------------+
+|   AIModelRegistry   |
++---------------------+
+| - modelID           |
+| - metadata          |
+| - hash              |
+| - owner             |
+| - timestamp         |
++---------------------+
+| +registerModel()    |
+| +verifyModel()      |
++---------------------+
+
++---------------------+
+|   BlockchainLedger  |
++---------------------+
+| - transactionID     |
+| - modelID           |
+| - actionType        |
+| - actorID           |
+| - timestamp         |
++---------------------+
+| +logAction()        |
+| +retrieveAudit()    |
++---------------------+
+
++---------------------+
+|   ExplainabilityLog |
++---------------------+
+| - modelID           |
+| - explanation       |
+| - methodUsed        |
+| - timestamp         |
++---------------------+
+| +storeExplanation() |
+| +getExplanation()   |
++---------------------+
+
++---------------------+
+|   RoleManager       |
++---------------------+
+| - roleID            |
+| - permissions       |
++---------------------+
+| +assignRole()       |
+| +validateAction()   |
++---------------------+
