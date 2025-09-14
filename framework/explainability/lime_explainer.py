@@ -19,7 +19,7 @@ class LIMEExplainer:
     providing local interpretable explanations around specific instances.
     """
     
-    def __init__(self, model: Any, training_data: Optional[np.ndarray] = None,
+    def __init__(self, model: Any, training_data: Optional[List[List[float]]] = None,
                  feature_names: Optional[List[str]] = None):
         """
         Initialize the LIME explainer.
