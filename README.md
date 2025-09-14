@@ -1,6 +1,8 @@
 # Blockchain-Enabled QA and AI Models in Healthcare Diagnostics
 
-Zenodo. https://zenodo.org/records/17115755
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17115755.svg)](https://doi.org/10.5281/zenodo.17115755)
+
+
 
 ## Overview
 
