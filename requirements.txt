@@ -1,2 +1,10 @@
-# Main dependencies for the framework (add as needed)
-pyyaml
+flask
+fastapi
+uvicorn
+pydantic
+hyperledger-fabric-sdk-py
+shap
+lime
+plantuml
+pytest
+python-dotenv

@@ -1,0 +1,16 @@
+@startuml
+
+title System Architecture
+
+actor User
+User --> API: REST Calls
+
+package "Backend" {
+  [API] --> [ModelRegistry]
+  [API] --> [DecisionAudit]
+  [API] --> [RegulatoryCompliance]
+  [API] --> [Simulator]
+  [API] --> [BlockchainQAChaincode]
+  [API] --> [Explainability]
+}
+@enduml
