@@ -45,6 +45,9 @@ Thumbs.db
 *.h5
 *.pt
 
+# Generated reports
+reports/
+
 # Temporary files
 tmp/
 temp/

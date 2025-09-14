@@ -6,8 +6,9 @@ generating feature importance scores and explanations for individual predictions
 """
 
 import json
+import random
+import math
 from typing import Dict, Any, List, Optional, Union
-import numpy as np
 
 
 class SHAPExplainer:
@@ -244,15 +245,15 @@ class SHAPExplainer:
                 "generated_at": self._get_timestamp()
             }
     
-    def _dict_to_array(self, data_dict: Dict[str, Any]) -> np.ndarray:
+    def _dict_to_array(self, data_dict: Dict[str, Any]) -> List[float]:
         """
-        Convert dictionary input to numpy array.
+        Convert dictionary input to list.
         
         Args:
             data_dict: Input data dictionary
             
         Returns:
-            Numpy array representation
+            List representation
         """
         try:
             if self.feature_names:
@@ -265,20 +266,20 @@ class SHAPExplainer:
                 if not self.feature_names:
                     self.feature_names = sorted_keys
             
-            return np.array(values).reshape(1, -1)
+            return [float(v) for v in values]
             
         except Exception as e:
             print(f"Error converting dict to array: {e}")
-            return np.array([[0]])
+            return [0.0]
     
     def _create_explanation_dict(self, sample: Dict[str, Any], 
-                               shap_values: np.ndarray) -> Dict[str, Any]:
+                               shap_values: List[float]) -> Dict[str, Any]:
         """
         Create explanation dictionary from SHAP values.
         
         Args:
             sample: Original input sample
-            shap_values: SHAP values array
+            shap_values: SHAP values list
             
         Returns:
             Explanation dictionary
@@ -286,13 +287,10 @@ class SHAPExplainer:
         try:
             feature_names = self.feature_names or list(sample.keys())
             
-            if len(shap_values.shape) == 1:
-                shap_values = shap_values.reshape(1, -1)
-            
             # Create feature importance mapping
             feature_importance = {}
-            for i, feature_name in enumerate(feature_names[:len(shap_values[0])]):
-                feature_importance[feature_name] = float(shap_values[0][i])
+            for i, feature_name in enumerate(feature_names[:len(shap_values)]):
+                feature_importance[feature_name] = float(shap_values[i])
             
             return {
                 "feature_importance": feature_importance,
@@ -363,34 +361,36 @@ class MockSHAPExplainer:
         """Initialize mock explainer."""
         self.model = model
     
-    def shap_values(self, X: np.ndarray) -> np.ndarray:
+    def shap_values(self, X: List[float]) -> List[float]:
         """
         Generate mock SHAP values.
         
         Args:
-            X: Input data array
+            X: Input data list
             
         Returns:
             Mock SHAP values
         """
         try:
             # Generate realistic mock SHAP values
-            n_features = X.shape[1]
+            n_features = len(X)
             
             # Create some variation based on input values
-            shap_values = np.random.normal(0, 0.1, n_features)
-            
-            # Make some features more important based on their values
+            shap_values = []
             for i in range(n_features):
-                if i < len(X[0]):
-                    # Scale importance by feature value
-                    shap_values[i] *= (1 + abs(X[0][i]) * 0.1)
+                base_value = random.normalvariate(0, 0.1)
+                # Scale importance by feature value
+                if i < len(X):
+                    base_value *= (1 + abs(X[i]) * 0.1)
+                shap_values.append(base_value)
             
-            # Ensure SHAP values sum to difference from base value
-            shap_values = shap_values / np.sum(np.abs(shap_values)) * 0.5
+            # Ensure SHAP values sum appropriately
+            total_abs = sum(abs(v) for v in shap_values)
+            if total_abs > 0:
+                shap_values = [v / total_abs * 0.5 for v in shap_values]
             
             return shap_values
             
         except Exception as e:
             print(f"Error generating mock SHAP values: {e}")
-            return np.array([0.1, -0.05, 0.2])  # Fallback values
+            return [0.1, -0.05, 0.2]  # Fallback values

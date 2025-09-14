@@ -6,8 +6,9 @@ explainability for AI/ML models, generating local explanations for individual pr
 """
 
 import json
+import random
+import math
 from typing import Dict, Any, List, Optional, Union, Callable
-import numpy as np
 
 
 class LIMEExplainer:
@@ -87,7 +88,7 @@ class LIMEExplainer:
                 
                 # Generate LIME explanation
                 lime_explanation = self.explainer.explain_instance(
-                    sample_array.flatten(),
+                    sample_array,
                     num_features=num_features,
                     num_samples=num_samples
                 )
@@ -126,15 +127,15 @@ class LIMEExplainer:
                 "generated_at": self._get_timestamp()
             }
     
-    def _dict_to_array(self, data_dict: Dict[str, Any]) -> np.ndarray:
+    def _dict_to_array(self, data_dict: Dict[str, Any]) -> List[float]:
         """
-        Convert dictionary input to numpy array.
+        Convert dictionary input to list.
         
         Args:
             data_dict: Input data dictionary
             
         Returns:
-            Numpy array representation
+            List representation
         """
         try:
             if self.feature_names:
@@ -147,11 +148,11 @@ class LIMEExplainer:
                 if not self.feature_names:
                     self.feature_names = sorted_keys
             
-            return np.array(values).reshape(1, -1)
+            return [float(v) for v in values]
             
         except Exception as e:
             print(f"Error converting dict to array: {e}")
-            return np.array([[0]])
+            return [0.0]
     
     def _create_explanation_dict(self, sample: Dict[str, Any], 
                                lime_explanation: Any) -> Dict[str, Any]:
@@ -210,14 +211,14 @@ class MockLIMEExplainer:
     is not available, providing realistic mock explanations.
     """
     
-    def __init__(self, model: Any, training_data: Optional[np.ndarray] = None,
+    def __init__(self, model: Any, training_data: Optional[List[List[float]]] = None,
                  feature_names: Optional[List[str]] = None):
         """Initialize mock explainer."""
         self.model = model
         self.training_data = training_data
         self.feature_names = feature_names
     
-    def explain_instance(self, instance: np.ndarray, 
+    def explain_instance(self, instance: List[float], 
                         num_features: int = 10, num_samples: int = 1000) -> 'MockLIMEExplanation':
         """
         Generate mock LIME explanation for an instance.
@@ -242,7 +243,7 @@ class MockLIMEExplainer:
                     feature_name = f"feature_{i}"
                 
                 # Create importance based on feature value and some randomness
-                base_importance = np.random.normal(0, 0.15)
+                base_importance = random.normalvariate(0, 0.15)
                 if i < len(instance):
                     # Scale by feature value
                     base_importance *= (1 + abs(instance[i]) * 0.1)
@@ -251,9 +252,9 @@ class MockLIMEExplainer:
             
             return MockLIMEExplanation(
                 feature_importance=feature_importance,
-                local_prediction=np.random.random(),
-                intercept=np.random.normal(0, 0.1),
-                score=min(0.95, max(0.7, np.random.normal(0.85, 0.05)))
+                local_prediction=random.random(),
+                intercept=random.normalvariate(0, 0.1),
+                score=min(0.95, max(0.7, random.normalvariate(0.85, 0.05)))
             )
             
         except Exception as e:
