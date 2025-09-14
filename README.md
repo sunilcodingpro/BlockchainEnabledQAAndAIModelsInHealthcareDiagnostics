@@ -1,5 +1,7 @@
 # Blockchain-Enabled QA and AI Models in Healthcare Diagnostics
 
+Zenodo. https://zenodo.org/records/17115755
+
 ## Overview
 
 This framework integrates blockchain (Hyperledger Fabric) and AI quality assurance for healthcare diagnostics.  
@@ -41,5 +43,30 @@ See docs/ for complete UML diagrams and design artifacts.
 See `docs/` for UML diagrams, architecture, and roles.
 
 ---
+
+Run the Flask API locally:
+bash: python app.py
+
+Test model registration and audit logging:
+bash: curl -X POST http://localhost:5000/register_model \
+  -H "Content-Type: application/json" \
+  -d '{"model_id": "lung_model_v4", "metadata": {"modality": "X-ray", "contains_phi": false}}'
+
+Generate SHAP explanation:
+bash: curl -X POST http://localhost:5000/generate_explanation \
+  -H "Content-Type: application/json" \
+  -d '{"model_id": "lung_model_v4", "method": "SHAP"}'
+
+Access the dashboard: http://localhost:5000/dashboard
+
+MIT License
+
+Copyright (c) 2025 Sunil Chinnayyagari
+
+Permission is hereby granted, free of charge, to any person obtaining a copy...
+
+If you use this framework in your research, please cite:
+Chinnayyagari, Sunil (2025). Blockchain-Enabled QA and AI Models in Healthcare Diagnostics (v1.0.0). 
+Zenodo. https://zenodo.org/records/17115755
 
 *This is an initial skeleton. Expand each module for full production.*
