@@ -5,6 +5,11 @@
 This framework integrates blockchain (Hyperledger Fabric) and AI quality assurance for healthcare diagnostics.  
 It includes model registration, diagnostic audit trails, explainability, compliance checks, simulation, and a REST API.
 
+## System Architecture
+
+See docs/ for complete UML diagrams and design artifacts.
+
+
 ## Directory Structure
 
 - `framework/blockchain/chaincode.py` — Blockchain/chaincode simulation
