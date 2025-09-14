@@ -1,0 +1,129 @@
+@startuml User Roles and Permissions
+!theme plain
+title Healthcare AI QA System - User Roles and Permissions
+
+package "System Actors" {
+    actor "Clinician" as Clinician
+    actor "AI/ML Engineer" as Engineer  
+    actor "Quality Assurance Manager" as QA
+    actor "Compliance Officer" as Compliance
+    actor "System Administrator" as Admin
+    actor "External Auditor" as Auditor
+}
+
+package "Core Permissions" {
+    usecase "Submit Diagnostic" as SubmitDiag
+    usecase "View Diagnostic History" as ViewDiag
+    usecase "Register AI Model" as RegisterModel
+    usecase "Update Model Status" as UpdateModel
+    usecase "Generate Compliance Report" as ComplianceReport
+    usecase "View Audit Trail" as ViewAudit
+    usecase "Manage Users" as ManageUsers
+    usecase "System Configuration" as SystemConfig
+    usecase "Run Simulations" as RunSim
+    usecase "Override AI Decision" as OverrideAI
+}
+
+package "Advanced Permissions" {
+    usecase "Model Performance Analysis" as ModelAnalysis
+    usecase "Drift Detection Config" as DriftConfig  
+    usecase "Compliance Event Investigation" as ComplianceInvestigate
+    usecase "Regulatory Report Export" as RegExport
+    usecase "Blockchain Network Admin" as BlockchainAdmin
+    usecase "Emergency System Access" as EmergencyAccess
+}
+
+' Clinician permissions
+Clinician --> SubmitDiag : Primary responsibility
+Clinician --> ViewDiag : Own diagnoses only
+Clinician --> OverrideAI : With justification
+Clinician --> ViewAudit : Limited scope
+
+' AI/ML Engineer permissions  
+Engineer --> RegisterModel : Deploy new models
+Engineer --> UpdateModel : Model lifecycle
+Engineer --> ModelAnalysis : Performance monitoring
+Engineer --> RunSim : Testing scenarios
+Engineer --> DriftConfig : Configure thresholds
+
+' Quality Assurance Manager permissions
+QA --> ViewAudit : Full system access
+QA --> ModelAnalysis : All models
+QA --> ComplianceReport : Generate reports
+QA --> ComplianceInvestigate : Investigate issues
+QA --> RunSim : Validation testing
+
+' Compliance Officer permissions
+Compliance --> ComplianceReport : All compliance reports
+Compliance --> ViewAudit : Regulatory focus
+Compliance --> ComplianceInvestigate : Full investigation
+Compliance --> RegExport : External reporting
+Compliance --> DriftConfig : Compliance thresholds
+
+' System Administrator permissions
+Admin --> ManageUsers : User lifecycle
+Admin --> SystemConfig : System settings  
+Admin --> BlockchainAdmin : Network management
+Admin --> EmergencyAccess : Emergency procedures
+Admin --> ViewAudit : Technical audit trail
+
+' External Auditor permissions
+Auditor --> ViewAudit : Read-only access
+Auditor --> ComplianceReport : Generate audit reports
+Auditor --> RegExport : Export for review
+
+note bottom of Clinician
+**Primary Users**: Healthcare professionals
+**Key Requirements**: 
+- Quick diagnostic submission
+- Clear AI explanations
+- Audit trail visibility
+- Override capabilities with justification
+end note
+
+note bottom of Engineer
+**Technical Users**: AI/ML developers  
+**Key Requirements**:
+- Model deployment and testing
+- Performance monitoring
+- Drift detection configuration
+- Simulation and validation tools
+end note
+
+note bottom of QA
+**Quality Focus**: System reliability
+**Key Requirements**:
+- Comprehensive audit access
+- Performance analysis tools  
+- Compliance monitoring
+- Testing and validation oversight
+end note
+
+note bottom of Compliance
+**Regulatory Focus**: Compliance assurance
+**Key Requirements**:
+- Full compliance reporting
+- Regulatory export capabilities
+- Investigation tools
+- Audit trail analysis
+end note
+
+note bottom of Admin
+**System Management**: Infrastructure
+**Key Requirements**:
+- User and system management
+- Blockchain network administration
+- Emergency access procedures
+- Technical system monitoring
+end note
+
+note bottom of Auditor
+**External Oversight**: Independent review
+**Key Requirements**:
+- Read-only audit access
+- Compliance report generation
+- Data export for external analysis
+- No system modification capabilities
+end note
+
+@enduml

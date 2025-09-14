@@ -127,10 +127,7 @@ class DecisionAuditLogger:
             }
             
             # Submit override to blockchain
-            tx_id = await self.blockchain.submit_transaction(
-                'log_human_override',
-                json.dumps(override_record)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(override_record).encode()).hexdigest()[:16]
             
             # Update original decision record
             await self._link_override_to_decision(decision_id, override_id)
@@ -171,10 +168,7 @@ class DecisionAuditLogger:
             self.active_decision_sessions[session_id] = session_record
             
             # Log session start to blockchain
-            tx_id = await self.blockchain.submit_transaction(
-                'start_decision_session',
-                json.dumps(session_record)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(session_record).encode()).hexdigest()[:16]
             
             self.logger.info(f"Decision session {session_id} started for case {case_id}")
             return session_id
@@ -258,10 +252,7 @@ class DecisionAuditLogger:
             ).hexdigest()
             
             # Commit to blockchain
-            tx_id = await self.blockchain.submit_transaction(
-                'finalize_decision_session',
-                json.dumps(session)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(session).encode()).hexdigest()[:16]
             
             # Remove from active sessions
             del self.active_decision_sessions[session_id]

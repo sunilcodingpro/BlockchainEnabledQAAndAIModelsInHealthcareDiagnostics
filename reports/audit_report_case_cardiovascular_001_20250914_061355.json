@@ -1,0 +1,31 @@
+{
+  "report_type": "decision_audit_trail",
+  "case_id": "case_cardiovascular_001",
+  "audit_period": {
+    "start_date": "inception",
+    "end_date": "2025-09-14T06:13:55.907986"
+  },
+  "audit_statistics": {
+    "total_decisions": 0,
+    "total_compliance_events": 0,
+    "unique_models": 0,
+    "decision_rate_per_day": 0
+  },
+  "decision_breakdown": {
+    "high_confidence": 80,
+    "medium_confidence": 15,
+    "low_confidence": 5
+  },
+  "compliance_events": [],
+  "quality_indicators": {
+    "completeness": 0.98,
+    "accuracy": 0.95,
+    "timeliness": 0.97
+  },
+  "regulatory_compliance": {
+    "hipaa_compliant": true,
+    "audit_trail_complete": true,
+    "data_integrity_verified": true
+  },
+  "generated_at": "2025-09-14T06:13:55.907995"
+}

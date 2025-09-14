@@ -1,0 +1,111 @@
+@startuml System Architecture
+!theme plain
+title Blockchain-Enabled Healthcare AI QA Framework - System Architecture
+
+package "Healthcare Providers" {
+    actor Clinician
+    actor Administrator  
+    actor Auditor
+    node "AI/ML Models" as Models
+}
+
+package "API Gateway" {
+    component "FastAPI Server" as API
+    component "Authentication" as Auth
+    component "Rate Limiting" as RateLimit
+    component "Load Balancer" as LB
+}
+
+package "Framework Modules" {
+    component "Model Registry" as Registry
+    component "Data Provenance Logger" as Provenance  
+    component "Decision Audit Logger" as Audit
+    component "Regulatory Report Generator" as Reports
+    component "Simulation Engine" as Simulator
+    component "Explainability Engine" as Explain
+}
+
+package "Blockchain Network (Hyperledger Fabric)" {
+    node "Peer Node 1" as Peer1
+    node "Peer Node 2" as Peer2
+    node "Peer Node N" as PeerN
+    node "Ordering Service" as Orderer
+    database "World State DB" as StateDB
+    component "Healthcare QA Chaincode" as Chaincode
+}
+
+package "External Integrations" {
+    database "Hospital Information System" as HIS
+    database "Electronic Health Records" as EHR
+    component "SHAP/LIME Libraries" as ExplainLibs
+    cloud "Cloud Storage" as Storage
+}
+
+package "Monitoring & Compliance" {
+    component "Performance Monitor" as Monitor
+    component "Compliance Scanner" as Compliance
+    component "Alert System" as Alerts
+    database "Audit Logs" as Logs
+}
+
+' User interactions
+Clinician --> LB : Submit Diagnosis
+Administrator --> LB : Register Model
+Auditor --> LB : Generate Report
+
+' API Gateway flow
+LB --> API
+API --> Auth : Authenticate
+API --> RateLimit : Check Limits
+API --> Registry : Model Operations
+API --> Provenance : Log Data
+API --> Audit : Record Decision
+API --> Reports : Generate Report
+API --> Simulator : Run Simulation
+
+' Framework to Blockchain
+Registry --> Chaincode : Register Model
+Provenance --> Chaincode : Log Provenance
+Audit --> Chaincode : Record Decision
+Reports --> Chaincode : Query Audit Trail
+
+' Blockchain Network
+Chaincode --> Peer1
+Chaincode --> Peer2  
+Chaincode --> PeerN
+Peer1 --> Orderer
+Peer2 --> Orderer
+PeerN --> Orderer
+Orderer --> StateDB
+
+' External Integrations
+Models --> API : Model Inference
+Registry --> Storage : Store Model Artifacts
+Explain --> ExplainLibs : Generate Explanations
+API --> HIS : Healthcare Data
+API --> EHR : Patient Records
+
+' Monitoring
+Monitor --> API : Performance Metrics
+Compliance --> Chaincode : Compliance Events
+Monitor --> Alerts : Trigger Alerts
+Compliance --> Logs : Store Compliance Data
+
+' Key data flows
+note right of Chaincode
+  - Model Registration
+  - Diagnostic Logging  
+  - Compliance Events
+  - Audit Trail Queries
+  - Drift Detection
+end note
+
+note bottom of StateDB
+  Immutable storage of:
+  - Model metadata & hashes
+  - Diagnostic decisions
+  - Compliance events
+  - Audit trails
+end note
+
+@enduml

@@ -1,0 +1,108 @@
+@startuml Data Flow Diagram
+!theme plain
+title Healthcare AI Diagnostic Data Flow with Blockchain QA
+
+participant "Clinician" as C
+participant "API Gateway" as API
+participant "Model Registry" as MR
+participant "AI Model" as AI
+participant "Decision Audit Logger" as DAL  
+participant "Data Provenance Logger" as DPL
+participant "Explainability Engine" as EE
+participant "Blockchain Network" as BC
+participant "Compliance Monitor" as CM
+
+== Model Registration Flow ==
+C -> API : POST /register_model
+activate API
+API -> MR : register_model()
+activate MR
+MR -> BC : store model metadata + hash
+activate BC
+BC --> MR : transaction_id
+deactivate BC
+MR --> API : model_hash
+deactivate MR  
+API --> C : registration_success
+deactivate API
+
+== Diagnostic Submission Flow ==
+C -> API : POST /submit_diagnostic
+activate API
+note right of API : Validate input data\nAuthenticate user
+API -> DPL : log_sample()
+activate DPL
+DPL -> BC : record data provenance
+activate BC
+BC --> DPL : provenance_hash
+deactivate BC
+DPL --> API : sample_logged
+deactivate DPL
+
+API -> AI : run_inference()
+activate AI
+AI --> API : prediction + confidence
+deactivate AI
+
+API -> EE : generate_explanation()
+activate EE
+EE --> API : SHAP/LIME explanation  
+deactivate EE
+
+API -> DAL : log_decision()
+activate DAL
+DAL -> BC : record decision + explanation
+activate BC
+BC --> DAL : decision_id
+deactivate BC
+DAL --> API : audit_logged
+deactivate DAL
+
+API -> CM : check_compliance()
+activate CM
+CM -> BC : query recent decisions
+BC --> CM : decision_history
+CM -> CM : detect_drift()
+alt Low Confidence Detected
+    CM -> BC : report_compliance_event()
+    BC --> CM : event_logged
+end
+CM --> API : compliance_status
+deactivate CM
+
+API --> C : diagnostic_result + decision_id
+deactivate API
+
+== Audit Trail Retrieval ==
+C -> API : POST /get_audit_trail
+activate API
+API -> BC : query_audit_trail()
+activate BC
+BC -> BC : aggregate all related records
+BC --> API : complete_audit_trail
+deactivate BC
+API --> C : audit_trail_response
+deactivate API
+
+== Compliance Reporting ==
+C -> API : POST /compliance_report  
+activate API
+API -> BC : generate_compliance_report()
+activate BC
+BC -> BC : analyze compliance events
+BC --> API : compliance_metrics
+deactivate BC
+API -> API : format_regulatory_report()
+API --> C : compliance_report_file
+deactivate API
+
+note over BC
+Blockchain stores immutable records of:
+- Model registrations with cryptographic hashes
+- Data provenance and sample lineage  
+- AI decisions with explanations
+- Compliance events and drift detection
+- Complete audit trails for regulatory compliance
+end note
+
+@enduml

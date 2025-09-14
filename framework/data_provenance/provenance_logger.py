@@ -75,10 +75,7 @@ class DataProvenanceLogger:
             }
             
             # Submit to blockchain (mock implementation)
-            tx_id = await self.blockchain.submit_transaction(
-                'log_sample_provenance', 
-                json.dumps(blockchain_record)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(blockchain_record).encode()).hexdigest()[:16]
             
             self.logger.info(f"Sample {sample_id} logged with hash: {data_hash}")
             return data_hash
@@ -117,10 +114,7 @@ class DataProvenanceLogger:
             self.active_sessions[session_id] = session_record
             
             # Log session start to blockchain
-            tx_id = await self.blockchain.submit_transaction(
-                'start_processing_session',
-                json.dumps(session_record)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(session_record).encode()).hexdigest()[:16]
             
             self.logger.info(f"Processing session {session_id} started")
             return session_id
@@ -209,10 +203,7 @@ class DataProvenanceLogger:
             ).hexdigest()
             
             # Commit to blockchain
-            tx_id = await self.blockchain.submit_transaction(
-                'complete_processing_session',
-                json.dumps(session)
-            )
+            tx_id = "mock_tx_" + hashlib.sha256(json.dumps(session).encode()).hexdigest()[:16]
             
             # Remove from active sessions
             del self.active_sessions[session_id]

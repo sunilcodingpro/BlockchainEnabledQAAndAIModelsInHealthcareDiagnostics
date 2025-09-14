@@ -216,20 +216,26 @@ class HyperledgerConnector:
     
     # === Diagnostic Operations ===
     
-    async def submit_diagnostic(self, diagnostic_data: Dict[str, Any]) -> str:
+    async def submit_diagnostic(self, diagnostic_data: Union[Dict[str, Any], str]) -> str:
         """
         Submit diagnostic operation to blockchain
         
         Args:
-            diagnostic_data: Complete diagnostic record
+            diagnostic_data: Complete diagnostic record (dict or JSON string)
             
         Returns:
             Blockchain transaction ID
         """
         try:
+            # Parse if string, otherwise use as dict
+            if isinstance(diagnostic_data, str):
+                data_dict = json.loads(diagnostic_data)
+            else:
+                data_dict = diagnostic_data.copy()
+            
             # Add metadata
-            diagnostic_data.update({
-                'diagnostic_id': f"diag_{int(time.time())}_{hashlib.sha256(str(diagnostic_data).encode()).hexdigest()[:8]}",
+            data_dict.update({
+                'diagnostic_id': data_dict.get('diagnostic_id', f"diag_{int(time.time())}_{hashlib.sha256(str(data_dict).encode()).hexdigest()[:8]}"),
                 'diagnostician_id': self.user_name,
                 'org_id': self.org_name
             })
@@ -238,10 +244,10 @@ class HyperledgerConnector:
                 tx_id = await self.gateway.submit_transaction(
                     self.chaincode_name,
                     'submit_diagnostic',
-                    json.dumps(diagnostic_data)
+                    json.dumps(data_dict)
                 )
             else:
-                # tx_id = await self.contract.submit_transaction('submit_diagnostic', json.dumps(diagnostic_data))
+                # tx_id = await self.contract.submit_transaction('submit_diagnostic', json.dumps(data_dict))
                 pass
             
             self.logger.info(f"Diagnostic submitted with transaction ID: {tx_id}")

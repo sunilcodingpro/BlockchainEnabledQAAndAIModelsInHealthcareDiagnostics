@@ -652,3 +652,89 @@ class Simulator:
             'simulation_type': 'patient_case',
             'parameters': {'case_count': 5}
         })
+    
+    # === Missing Simulation Methods ===
+    
+    async def _simulate_data_quality_scenarios(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Simulate data quality testing scenarios"""
+        start_time = time.time()
+        test_cases = config.get('case_count', 50)
+        
+        quality_results = []
+        for i in range(test_cases):
+            case_result = {
+                'case_id': f'quality_test_{i+1}',
+                'completeness': random.uniform(0.7, 1.0),
+                'accuracy': random.uniform(0.8, 1.0),
+                'consistency': random.uniform(0.75, 1.0)
+            }
+            quality_results.append(case_result)
+            await asyncio.sleep(0.01)
+        
+        execution_time = time.time() - start_time
+        avg_quality = sum(r['accuracy'] for r in quality_results) / len(quality_results)
+        
+        return {
+            'cases_processed': len(quality_results),
+            'summary': {
+                'average_quality_score': avg_quality,
+                'quality_issues_found': len([r for r in quality_results if r['accuracy'] < 0.9])
+            },
+            'metrics': {'test_execution_rate': len(quality_results) / execution_time},
+            'recommendations': ["Implement automated quality monitoring"],
+            'generated_data': quality_results[:5],
+            'execution_time': execution_time
+        }
+    
+    async def _simulate_regulatory_inspection(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Simulate regulatory inspection scenarios"""
+        start_time = time.time()
+        duration_days = config.get('parameters', {}).get('duration_days', 5)
+        
+        activities = []
+        for day in range(duration_days):
+            daily_activities = random.randint(3, 8)
+            for _ in range(daily_activities):
+                activity = random.choice(['document_review', 'system_testing', 'interview'])
+                activities.append(activity)
+            await asyncio.sleep(0.1)
+        
+        execution_time = time.time() - start_time
+        
+        return {
+            'cases_processed': len(activities),
+            'summary': {'inspection_result': 'pass', 'total_findings': random.randint(0, 5)},
+            'metrics': {'activities_per_day': len(activities) / duration_days},
+            'recommendations': ['Address findings promptly'],
+            'generated_data': {'activities': activities[:10]},
+            'execution_time': execution_time
+        }
+    
+    async def _simulate_multi_model_comparison(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Simulate multi-model performance comparison"""
+        start_time = time.time()
+        models = config.get('parameters', {}).get('models', ['ModelA', 'ModelB', 'ModelC'])
+        test_cases = config.get('case_count', 100)
+        
+        model_results = {}
+        for model in models:
+            model_results[model] = {
+                'accuracy': random.uniform(0.85, 0.95),
+                'response_time': random.uniform(50, 200)
+            }
+            await asyncio.sleep(0.1)
+        
+        best_model = max(models, key=lambda m: model_results[m]['accuracy'])
+        execution_time = time.time() - start_time
+        
+        return {
+            'cases_processed': test_cases * len(models),
+            'summary': {
+                'best_performing_model': best_model,
+                'models_compared': len(models)
+            },
+            'metrics': {'comparison_rate': (test_cases * len(models)) / execution_time},
+            'recommendations': [f"Deploy {best_model} for production use"],
+            'generated_data': {'model_performance': model_results},
+            'execution_time': execution_time
+        }

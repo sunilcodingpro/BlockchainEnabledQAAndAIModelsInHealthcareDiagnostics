@@ -1,0 +1,51 @@
+{
+  "report_type": "model_regulatory_report",
+  "report_version": "1.0",
+  "generated_at": "2025-09-14T06:13:55.907324",
+  "generated_by": "demo_user",
+  "model_information": {
+    "model_id": "unknown",
+    "name": "unknown",
+    "version": "unknown",
+    "algorithm": "unknown",
+    "regulatory_status": "unknown",
+    "created_at": "unknown",
+    "creator_org": "unknown"
+  },
+  "compliance_summary": {
+    "compliance_score": 0,
+    "total_events": 0,
+    "unresolved_events": 0,
+    "critical_events": 0
+  },
+  "audit_summary": {
+    "total_diagnostics": 0,
+    "audit_period_start": "",
+    "audit_period_end": "",
+    "data_integrity_verified": true
+  },
+  "regulatory_attestations": [
+    {
+      "statement": "Model development follows FDA Software as Medical Device guidance",
+      "status": "compliant",
+      "evidence": "Development process documentation available"
+    },
+    {
+      "statement": "Clinical validation performed according to ISO 13485",
+      "status": "non_compliant",
+      "evidence": "Model accuracy: 0.00%"
+    }
+  ],
+  "quality_metrics": {
+    "error": "No diagnostic data available"
+  },
+  "recommendations": [
+    "Consider model retraining to improve diagnostic accuracy"
+  ],
+  "performance_analysis": {
+    "trend": "stable",
+    "metrics": {
+      "accuracy": 0.94
+    }
+  }
+}
